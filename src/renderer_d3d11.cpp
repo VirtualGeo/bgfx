@@ -2369,6 +2369,22 @@ namespace bgfx { namespace d3d11
 				| BGFX_RESET_SUSPEND
 				);
 
+
+			// HACK HOLOLENS BEGIN
+			// With hololens we need to update the m_backBufferColor/m_backBufferDepthStencil every frame
+			// The Hololens sdk give us a different backBuffer/depth every frame (in fact a rotation of 4 backbuffer are used)
+			// In our OpenXR example we use the bgfx::setPlatformData to achieve that, but this fonction is suppose to be used before bgfx::init only
+			//
+			// TODO : find a clean way to update backBuffer/depth (maybe by adding a updatePlatformData method)
+			// note it's should be interesting to also be able to update the m_resolution.width/m_resolution.height
+			if (NULL == m_swapChain)
+			{
+				// Updated backbuffer if it changed in PlatformData.
+				m_backBufferColor = (ID3D11RenderTargetView*)g_platformData.backBuffer;
+				m_backBufferDepthStencil = (ID3D11DepthStencilView*)g_platformData.backBufferDS;
+			}
+			// HACK HOLOLENS END
+
 			if (m_resolution.width            !=  _resolution.width
 			||  m_resolution.height           !=  _resolution.height
 			||  m_resolution.format           !=  _resolution.format
