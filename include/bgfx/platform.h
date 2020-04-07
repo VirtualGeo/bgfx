@@ -98,6 +98,20 @@ namespace bgfx
 	///
 	uintptr_t overrideInternal(TextureHandle _handle, uintptr_t _ptr);
 
+	/// Retrieve the native texture handle. 
+	///
+	/// @attention It's expected you understand some bgfx internals before you
+	///   use this call.
+	///
+	/// @param[in] _handle Texture handle.
+	///
+	/// @returns Native API pointer to texture. If result is 0, texture is not created yet from the
+	///   main thread.
+	///
+	/// @warning Must be called only on render thread.
+	///
+	uintptr_t getInternal(TextureHandle _handle);
+
 	/// Override internal texture by creating new texture. Previously created
 	/// internal texture will released.
 	///
