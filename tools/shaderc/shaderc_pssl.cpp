@@ -4,8 +4,11 @@
  */
 
 #include "shaderc.h"
+#include "../../src/vertexdecl.h"
 
-namespace bgfx
+using namespace bgfx;
+
+namespace shaderc
 {
 	bool compilePSSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer)
 	{

@@ -6,14 +6,14 @@
 #ifndef SHADERC_H_HEADER_GUARD
 #define SHADERC_H_HEADER_GUARD
 
-namespace bgfx
+namespace shaderc
 {
 	extern bool g_verbose;
 }
 
 #define _BX_TRACE(_format, ...) \
 				BX_MACRO_BLOCK_BEGIN \
-					if (bgfx::g_verbose) \
+					if (shaderc::g_verbose) \
 					{ \
 						fprintf(stdout, BX_FILE_LINE_LITERAL "" _format "\n", ##__VA_ARGS__); \
 					} \
@@ -35,10 +35,15 @@ namespace bgfx
 						bx::debugBreak(); \
 					} \
 				BX_MACRO_BLOCK_END
-
+#ifndef BX_TRACE
 #define BX_TRACE _BX_TRACE
+#endif
+#ifndef BX_WARN
 #define BX_WARN  _BX_WARN
+#endif
+#ifndef BX_CHECK
 #define BX_CHECK _BX_CHECK
+#endif
 
 #ifndef SHADERC_CONFIG_HLSL
 #	define SHADERC_CONFIG_HLSL BX_PLATFORM_WINDOWS
@@ -60,9 +65,12 @@ namespace bgfx
 #include <bx/string.h>
 #include <bx/hash.h>
 #include <bx/file.h>
-#include "../../src/vertexdecl.h"
 
-namespace bgfx
+#include <bgfx/bgfx.h>
+
+//#include "../../src/vertexdecl.h"
+
+namespace shaderc
 {
 	extern bool g_verbose;
 
@@ -110,17 +118,18 @@ namespace bgfx
 #define BGFX_UNIFORM_FRAGMENTBIT UINT8_C(0x10)
 #define BGFX_UNIFORM_SAMPLERBIT  UINT8_C(0x20)
 
-	const char* getUniformTypeName(UniformType::Enum _enum);
-	UniformType::Enum nameToUniformTypeEnum(const char* _name);
+	const char* getUniformTypeName(bgfx::UniformType::Enum _enum);
+	bgfx::UniformType::Enum nameToUniformTypeEnum(const char* _name);
 
 	struct Uniform
 	{
 		std::string name;
-		UniformType::Enum type;
+		bgfx::UniformType::Enum type;
 		uint8_t num;
 		uint16_t regIndex;
 		uint16_t regCount;
 	};
+
 
 	struct Options
 	{
@@ -165,6 +174,8 @@ namespace bgfx
 	int32_t writef(bx::WriterI* _writer, const char* _format, ...);
 	void writeFile(const char* _filePath, const void* _data, int32_t _size);
 
+	int compileShader(int _argc, const char* _argv[]);
+	bool compileShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 	bool compileGLSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 	bool compileHLSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 	bool compileMetalShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);

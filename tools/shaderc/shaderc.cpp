@@ -4,6 +4,7 @@
  */
 
 #include "shaderc.h"
+#include "../../src/vertexdecl.h"
 #include <bx/commandline.h>
 #include <bx/filepath.h>
 
@@ -21,7 +22,9 @@ extern "C"
 #define BGFX_SHADERC_VERSION_MAJOR 1
 #define BGFX_SHADERC_VERSION_MINOR 16
 
-namespace bgfx
+using namespace bgfx;
+
+namespace shaderc
 {
 	bool g_verbose = false;
 
@@ -2565,9 +2568,12 @@ namespace bgfx
 		return bx::kExitFailure;
 	}
 
+
+
+	bool compileShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer)
+	{
+		bx::printf("Hello\n");
+		return true;
+	}
 } // namespace bgfx
 
-int main(int _argc, const char* _argv[])
-{
-	return bgfx::compileShader(_argc, _argv);
-}

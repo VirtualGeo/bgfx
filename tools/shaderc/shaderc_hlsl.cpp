@@ -4,6 +4,7 @@
  */
 
 #include "shaderc.h"
+#include "../../src/vertexdecl.h"
 
 #if SHADERC_CONFIG_HLSL
 
@@ -22,7 +23,9 @@
 #	define D3D_SVF_USED 2
 #endif // D3D_SVF_USED
 
-namespace bgfx { namespace hlsl
+using namespace bgfx;
+
+namespace shaderc { namespace hlsl
 {
 	typedef HRESULT(WINAPI* PFN_D3D_COMPILE)(_In_reads_bytes_(SrcDataSize) LPCVOID pSrcData
 		, _In_ SIZE_T SrcDataSize

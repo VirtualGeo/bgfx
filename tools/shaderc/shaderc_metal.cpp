@@ -4,6 +4,7 @@
  */
 
 #include "shaderc.h"
+#include "../../src/vertexdecl.h"
 
 BX_PRAGMA_DIAGNOSTIC_PUSH()
 BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4100) // error C4100: 'inclusionDepth' : unreferenced formal parameter
@@ -20,17 +21,19 @@ BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow") // warning: declaration of 'u
 #include <spirv-tools/optimizer.hpp>
 BX_PRAGMA_DIAGNOSTIC_POP()
 
-namespace bgfx
-{
-	struct TinyStlAllocator
-	{
-		static void* static_allocate(size_t _bytes);
-		static void static_deallocate(void* _ptr, size_t /*_bytes*/);
-	};
+using namespace bgfx;
 
-} // namespace bgfx
-
-#define TINYSTL_ALLOCATOR bgfx::TinyStlAllocator
+//namespace shaderc
+//{
+//	struct TinyStlAllocator
+//	{
+//		static void* static_allocate(size_t _bytes);
+//		static void static_deallocate(void* _ptr, size_t /*_bytes*/);
+//	};
+//
+//} // namespace bgfx
+//
+//#define TINYSTL_ALLOCATOR shaderc::TinyStlAllocator
 #include <tinystl/allocator.h>
 #include <tinystl/string.h>
 #include <tinystl/unordered_map.h>
@@ -39,7 +42,7 @@ namespace stl = tinystl;
 
 #include "../../src/shader_spirv.h"
 
-namespace bgfx { namespace metal
+namespace shaderc { namespace metal
 {
 	const TBuiltInResource resourceLimits =
 	{

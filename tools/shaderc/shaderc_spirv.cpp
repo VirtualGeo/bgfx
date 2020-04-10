@@ -4,6 +4,7 @@
  */
 
 #include "shaderc.h"
+#include "../../src/vertexdecl.h"
 
 BX_PRAGMA_DIAGNOSTIC_PUSH()
 BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4100) // error C4100: 'inclusionDepth' : unreferenced formal parameter
@@ -20,32 +21,8 @@ BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow") // warning: declaration of 'u
 #include <spirv-tools/optimizer.hpp>
 BX_PRAGMA_DIAGNOSTIC_POP()
 
-namespace bgfx
-{
-	static bx::DefaultAllocator s_allocator;
-	bx::AllocatorI* g_allocator = &s_allocator;
+using namespace bgfx;
 
-	struct TinyStlAllocator
-	{
-		static void* static_allocate(size_t _bytes);
-		static void static_deallocate(void* _ptr, size_t /*_bytes*/);
-	};
-
-	void* TinyStlAllocator::static_allocate(size_t _bytes)
-	{
-		return BX_ALLOC(g_allocator, _bytes);
-	}
-
-	void TinyStlAllocator::static_deallocate(void* _ptr, size_t /*_bytes*/)
-	{
-		if (NULL != _ptr)
-		{
-			BX_FREE(g_allocator, _ptr);
-		}
-	}
-} // namespace bgfx
-
-#define TINYSTL_ALLOCATOR bgfx::TinyStlAllocator
 #include <tinystl/allocator.h>
 #include <tinystl/string.h>
 #include <tinystl/unordered_map.h>
@@ -55,7 +32,7 @@ namespace stl = tinystl;
 #include "../../src/shader_spirv.h"
 #include "../../3rdparty/khronos/vulkan/vulkan.h"
 
-namespace bgfx { namespace spirv
+namespace shaderc { namespace spirv
 {
 	const TBuiltInResource resourceLimits =
 	{

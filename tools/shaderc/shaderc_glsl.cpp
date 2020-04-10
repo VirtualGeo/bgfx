@@ -5,8 +5,11 @@
 
 #include "shaderc.h"
 #include "glsl_optimizer.h"
+#include "../../src/vertexdecl.h"
 
-namespace bgfx { namespace glsl
+using namespace bgfx;
+
+namespace shaderc { namespace glsl
 {
 	static bool compile(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer)
 	{
