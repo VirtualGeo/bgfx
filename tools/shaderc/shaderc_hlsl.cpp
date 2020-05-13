@@ -825,7 +825,7 @@ namespace shaderc { namespace hlsl
 
 #else
 
-namespace bgfx
+namespace shaderc
 {
 	bool compileHLSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer)
 	{
