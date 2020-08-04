@@ -49,6 +49,16 @@ namespace shaderc
 #	define SHADERC_CONFIG_HLSL BX_PLATFORM_WINDOWS
 #endif // SHADERC_CONFIG_HLSL
 
+#ifdef _WIN32
+	#ifdef SHADERC_LIB
+		#define SHADERC_EXPORT __declspec(dllexport)
+	#else
+		#define SHADERC_EXPORT
+	#endif
+#else
+	#define SHADERC_EXPORT
+#endif
+
 #include <alloca.h>
 #include <stdint.h>
 #include <string.h>
@@ -130,8 +140,7 @@ namespace shaderc
 		uint16_t regCount;
 	};
 
-
-	struct Options
+	struct SHADERC_EXPORT Options
 	{
 		Options();
 
@@ -174,8 +183,10 @@ namespace shaderc
 	int32_t writef(bx::WriterI* _writer, const char* _format, ...);
 	void writeFile(const char* _filePath, const void* _data, int32_t _size);
 
+	SHADERC_EXPORT
 	int compileShader(int _argc, const char* _argv[]);
-	bool compileShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
+	SHADERC_EXPORT
+	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::WriterI* _writer);
 	bool compileGLSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 	bool compileHLSLShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 	bool compileMetalShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
@@ -184,6 +195,6 @@ namespace shaderc
 
 	const char* getPsslPreamble();
 
-} // namespace bgfx
+} // namespace shaderc
 
 #endif // SHADERC_H_HEADER_GUARD

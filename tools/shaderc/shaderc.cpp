@@ -931,7 +931,7 @@ namespace shaderc
 		return word;
 	}
 
-	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::FileWriter* _writer)
+	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::WriterI* _writer)
 	{
 		uint32_t glsl  = 0;
 		uint32_t essl  = 0;
@@ -2568,12 +2568,5 @@ namespace shaderc
 		return bx::kExitFailure;
 	}
 
-
-
-	bool compileShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer)
-	{
-		bx::printf("Hello\n");
-		return true;
-	}
-} // namespace bgfx
+} // namespace shaderc
 
